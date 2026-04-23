@@ -107,7 +107,7 @@ def create_resume_analyzer() -> Agent:
 
     return Agent(
         model=OpenAIChat(
-            id="gpt-4o",
+            id="gemini-2.5-flash",
             api_key=st.session_state.openai_api_key
         ),
         description="You are an expert technical recruiter who analyzes resumes.",
@@ -124,7 +124,7 @@ def create_resume_analyzer() -> Agent:
 def create_email_agent() -> Agent:
     return Agent(
         model=OpenAIChat(
-            id="gpt-4o",
+            id="gemini-2.5-flash",
             api_key=st.session_state.openai_api_key
         ),
         tools=[EmailTools(
@@ -157,7 +157,7 @@ def create_scheduler_agent() -> Agent:
     return Agent(
         name="Interview Scheduler",
         model=OpenAIChat(
-            id="gpt-4o",
+            id="gemini-2.5-flash",
             api_key=st.session_state.openai_api_key
         ),
         tools=[zoom_tools],

@@ -4,7 +4,7 @@ from qdrant_client import QdrantClient
 from uuid import uuid4
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain.tools.retriever import create_retriever_tool
+from langchain_core.tools.retriever import create_retriever_tool
 
 from typing import Annotated, Literal, Sequence
 from typing_extensions import TypedDict
@@ -29,7 +29,7 @@ st.header(":blue[Agentic RAG with LangGraph:] :green[AI Blog Search]")
 
 # Initialize session state variables if they don't exist
 if 'qdrant_host' not in st.session_state:
-    st.session_state.qdrant_host = ""
+    st.session_state.qdrant_host = "http://localhost:6333"
 if 'qdrant_api_key' not in st.session_state:
     st.session_state.qdrant_api_key = ""
 if 'gemini_api_key' not in st.session_state:
@@ -45,18 +45,17 @@ def set_sidebar():
         gemini_api_key = st.text_input("Enter your Gemini API key:", type="password")
 
         if st.button("Done"):
-            if qdrant_host and qdrant_api_key and gemini_api_key:
+            if qdrant_host and gemini_api_key:
                 st.session_state.qdrant_host = qdrant_host
                 st.session_state.qdrant_api_key = qdrant_api_key
                 st.session_state.gemini_api_key = gemini_api_key
                 st.success("API keys saved!")
             else:
-                st.warning("Please fill all API fields")
+                st.warning("Please fill Qdrant Host and Gemini API key")
 
 def initialize_components():
     """Initialize components that require API keys"""
     if not all([st.session_state.qdrant_host, 
-               st.session_state.qdrant_api_key, 
                st.session_state.gemini_api_key]):
         return None, None, None
 
@@ -70,7 +69,7 @@ def initialize_components():
         # Initialize Qdrant client
         client = QdrantClient(
             st.session_state.qdrant_host,
-            api_key=st.session_state.qdrant_api_key
+            api_key=st.session_state.qdrant_api_key or None
         )
 
         # Initialize vector store

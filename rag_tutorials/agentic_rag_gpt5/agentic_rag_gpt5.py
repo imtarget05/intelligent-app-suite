@@ -69,7 +69,7 @@ if openai_key:
         """Load and initialize the knowledge base with LanceDB"""
         kb = Knowledge(
             vector_db=LanceDb(
-                uri="tmp/lancedb",
+                uri=os.path.expanduser("~/.cache/rag_tutorials/lancedb/agentic_rag_gpt5"),
                 table_name="agentic_rag_docs",
                 search_type=SearchType.vector,  # Use vector search
                 embedder=OpenAIEmbedder(
@@ -85,7 +85,7 @@ if openai_key:
         """Create an agent with reasoning capabilities"""
         return Agent(
             model=OpenAIChat(
-                id="gpt-5",
+                id="gemini-2.5-flash",
                 api_key=openai_key
             ),
             knowledge=_kb,

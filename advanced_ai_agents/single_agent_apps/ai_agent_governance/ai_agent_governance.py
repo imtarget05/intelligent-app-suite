@@ -447,7 +447,7 @@ If no tool is needed, just respond normally."""
         
         # Get LLM response
         response = self.client.chat.completions.create(
-            model="gpt-4",
+            model="gemini-2.5-flash",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_request}

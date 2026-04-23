@@ -15,7 +15,7 @@ if all(api_keys.values()):
         "vector_store": {
             "provider": "qdrant",
             "config": {
-                "model": "gpt-4o-mini",
+                "model": "gemini-2.5-flash",
                 "host": "localhost",
                 "port": 6333,
             }
@@ -46,7 +46,7 @@ if all(api_keys.values()):
         Search Result: {result}
         Output Format: Table with the following columns: [{{"title": "Paper Title", "authors": "Author Names", "abstract": "Brief abstract", "link": "arXiv link"}}, ...]
         """
-        response = openai_client.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "user", "content": prompt}], temperature=0.2)
+        response = openai_client.chat.completions.create(model="gemini-2.5-flash", messages=[{"role": "user", "content": prompt}], temperature=0.2)
         return response.choices[0].message.content
 
     if st.button('Search for Papers'):

@@ -21,7 +21,7 @@ if openai_api_key and serp_api_key:
     searcher = Agent(
         name="Searcher",
         role="Searches for top URLs based on a topic",
-        model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+        model=OpenAIChat(id="gemini-2.5-flash", api_key=openai_api_key),
         description=dedent(
             """\
         You are a world-class journalist for the New York Times. Given a topic, generate a list of 3 search terms
@@ -41,7 +41,7 @@ if openai_api_key and serp_api_key:
     writer = Agent(
         name="Writer",
         role="Retrieves text from URLs and writes a high-quality article",
-        model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+        model=OpenAIChat(id="gemini-2.5-flash", api_key=openai_api_key),
         description=dedent(
             """\
         You are a senior writer for the New York Times. Given a topic and a list of URLs,
@@ -65,7 +65,7 @@ if openai_api_key and serp_api_key:
 
     editor = Agent(
         name="Editor",
-        model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+        model=OpenAIChat(id="gemini-2.5-flash", api_key=openai_api_key),
         team=[searcher, writer],
         description="You are a senior NYT editor. Given a topic, your goal is to write a NYT worthy article.",
         instructions=[

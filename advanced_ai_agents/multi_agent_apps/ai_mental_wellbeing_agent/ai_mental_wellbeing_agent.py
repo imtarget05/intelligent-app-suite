@@ -124,7 +124,7 @@ if st.button("Get Support Plan"):
                 }
 
                 llm_config = {
-                    "config_list": [{"model": "gpt-4o", "api_key": api_key}]
+                    "config_list": [{"model": "gemini-2.5-flash", "api_key": api_key}]
                 }
 
                 context_variables = {

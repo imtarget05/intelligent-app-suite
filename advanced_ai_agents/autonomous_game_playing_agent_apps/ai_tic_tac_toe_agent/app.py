@@ -36,7 +36,7 @@ def main():
     # Check for required API keys
     ####################################################################
     required_keys_info = {
-        "gpt-4o": "OPENAI_API_KEY",
+        "gemini-2.5-flash": "OPENAI_API_KEY",
         "o3-mini": "OPENAI_API_KEY", 
         "claude-3.5": "ANTHROPIC_API_KEY",
         "claude-3.7": "ANTHROPIC_API_KEY",
@@ -65,7 +65,7 @@ def main():
     with st.sidebar:
         st.markdown("### Game Controls")
         model_options = {
-            "gpt-4o": "openai:gpt-4o",
+            "gemini-2.5-flash": "openai:gpt-4o",
             "o3-mini": "openai:o3-mini",
             "claude-3.5": "anthropic:claude-3-5-sonnet",
             "claude-3.7": "anthropic:claude-3-7-sonnet",

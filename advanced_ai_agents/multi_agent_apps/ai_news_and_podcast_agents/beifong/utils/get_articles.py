@@ -4,7 +4,7 @@ import json
 from datetime import datetime, timedelta
 from typing import List, Dict, Any
 
-TOPIC_EXTRACTION_MODEL = "gpt-4o-mini"
+TOPIC_EXTRACTION_MODEL = "gemini-2.5-flash"
 
 
 def extract_search_terms(prompt: str, api_key: str, max_terms: int = 10) -> list:

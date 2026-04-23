@@ -12,7 +12,7 @@ import json
 
 load_dotenv()
 
-BROWSER_AGENT_MODEL = "gpt-4o"
+BROWSER_AGENT_MODEL = "gemini-2.5-flash"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 MAX_STEPS = 15
 MAX_ACTIONS_PER_STEP = 5

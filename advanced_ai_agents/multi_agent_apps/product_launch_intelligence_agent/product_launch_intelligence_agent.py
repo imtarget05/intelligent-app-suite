@@ -56,7 +56,7 @@ if openai_key and firecrawl_key:
             Always cite observable signals (messaging, pricing actions, channel mix, timing, engagement metrics). Maintain a crisp, executive tone and focus on strategic value.
             IMPORTANT: Conclude your report with a 'Sources:' section, listing all URLs of websites you crawled or searched for this analysis.
         """),
-        model=OpenAIChat(id="gpt-4o"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[FirecrawlTools(search=True, crawl=True, poll_interval=10)],
         debug_mode=True,
         markdown=True,
@@ -78,7 +78,7 @@ if openai_key and firecrawl_key:
             Focus on extracting sentiment signals from social platforms, review sites, forums, and customer feedback channels.
             IMPORTANT: Conclude your report with a 'Sources:' section, listing all URLs of websites you crawled or searched for this analysis.
         """),
-        model=OpenAIChat(id="gpt-4o"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[FirecrawlTools(search=True, crawl=True, poll_interval=10)],
         debug_mode=True,
         markdown=True,
@@ -101,7 +101,7 @@ if openai_key and firecrawl_key:
             Always provide quantitative insights with context and benchmark against industry standards when possible.
             IMPORTANT: Conclude your report with a 'Sources:' section, listing all URLs of websites you crawled or searched for this analysis.
         """),
-        model=OpenAIChat(id="gpt-4o"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[FirecrawlTools(search=True, crawl=True, poll_interval=10)],
         debug_mode=True,
         markdown=True,
@@ -112,7 +112,7 @@ if openai_key and firecrawl_key:
     # Create the coordinated team
     product_intelligence_team = Team(
         name="Product Intelligence Team",
-        model=OpenAIChat(id="gpt-4o"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         members=[launch_analyst, sentiment_analyst, metrics_analyst],
         instructions=[
             "Coordinate the analysis based on the user's request type:",

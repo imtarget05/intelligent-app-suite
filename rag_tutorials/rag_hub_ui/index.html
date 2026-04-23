@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Copilot Hub - 22 Apps</title>
+    <!-- Phosphor Icons for modern iconography -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            /* Brand Colors */
+            --bg-body: #09090b;
+            --bg-sidebar: #18181b;
+            --bg-sidebar-hover: #27272a;
+            --bg-sidebar-active: #3f3f46;
+            --text-main: #f8fafc;
+            --text-muted: #a1a1aa;
+            --accent-color: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --border-color: #27272a;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --transition-fast: 0.2s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: 300px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            transition: width var(--transition-fast);
+            z-index: 10;
+        }
+
+        .brand {
+            padding: 24px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .brand i {
+            font-size: 28px;
+            color: var(--accent-color);
+            -webkit-text-fill-color: var(--accent-color);
+        }
+
+        .search-container {
+            padding: 16px 20px;
+            position: relative;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 32px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        #search-input {
+            width: 100%;
+            background-color: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 10px 10px 36px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all var(--transition-fast);
+        }
+
+        #search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px var(--accent-glow);
+        }
+
+        .nav-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        /* Custom Scrollbar for Sidebar */
+        .nav-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .nav-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .nav-container::-webkit-scrollbar-thumb {
+            background: var(--bg-sidebar-active);
+            border-radius: 3px;
+        }
+
+        .category-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin: 16px 10px 8px 10px;
+            font-weight: 600;
+        }
+
+        .app-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            font-size: 0.9rem;
+        }
+
+        .app-link i {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: color var(--transition-fast);
+        }
+
+        .app-link:hover {
+            background-color: var(--bg-sidebar-hover);
+        }
+
+        .app-link.active {
+            background-color: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .app-link.active i {
+            color: #fff;
+        }
+
+        .app-link .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #22c55e;
+            margin-left: auto;
+            box-shadow: 0 0 8px #22c55e;
+            display: none;
+        }
+        
+        .app-link.active .status-indicator {
+            display: block;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background-color: var(--bg-body);
+        }
+
+        /* Top Header in Main */
+        .main-header {
+            height: 60px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            background-color: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 5;
+        }
+
+        .current-app-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .current-app-title i {
+            color: var(--accent-color);
+        }
+
+        #app-frame {
+            flex: 1;
+            width: 100%;
+            border: none;
+            background-color: #fff; /* Streamlit is usually white, you can adjust this */
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Ensure dark mode for streamlit frames if possible, but default streamlit bg is white unless dark theme is set. We'll leave it to streamlit's default */
+
+        #welcome-screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #18181b 0%, var(--bg-body) 100%);
+            z-index: 1;
+        }
+
+        .welcome-icon {
+            font-size: 80px;
+            color: var(--accent-color);
+            margin-bottom: 24px;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .welcome-subtitle {
+            color: var(--text-muted);
+            max-width: 400px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Loader */
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid var(--bg-sidebar);
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            display: none;
+            z-index: 2;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .cli-notice {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-body);
+            z-index: 3;
+            text-align: center;
+        }
+        .cli-notice code {
+            background-color: var(--bg-sidebar);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #22c55e;
+            margin-top: 16px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside id="sidebar">
+        <div class="brand">
+            <i class="ph-fill ph-planet"></i>
+            RAG Copilot Hub
+        </div>
+        
+        <div class="search-container">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Search apps...">
+        </div>
+
+        <nav class="nav-container" id="nav-menu">
+            <!-- Categories injected via JS -->
+        </nav>
+    </aside>
+
+    <main>
+        <div class="main-header">
+            <div class="current-app-title" id="current-app-header">
+                <i class="ph ph-squares-four"></i>
+                <span>Dashboard</span>
+            </div>
+            <div style="margin-left: auto; display: flex; gap: 12px;">
+                <button style="background: none; border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 12px; border-radius: 6px; cursor: pointer;" onclick="refreshIframe()">
+                    <i class="ph ph-arrows-clockwise"></i> Refresh
+                </button>
+                <button style="background: none; border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 12px; border-radius: 6px; cursor: pointer;" onclick="openInNewTab()">
+                    <i class="ph ph-arrow-square-out"></i> Open Externally
+                </button>
+            </div>
+        </div>
+
+        <div id="welcome-screen">
+            <i class="ph-duotone ph-rocket welcome-icon"></i>
+            <h1 class="welcome-title">Welcome to RAG Hub</h1>
+            <p class="welcome-subtitle">Select any RAG application from the sidebar to launch it instantly in the workspace. Make sure you have run <code>./start_all_apps.sh</code> first.</p>
+        </div>
+        
+        <div class="cli-notice" id="cli-notice">
+            <i class="ph-duotone ph-terminal" style="font-size: 64px; color: var(--text-muted); margin-bottom: 20px;"></i>
+            <h2>CLI Application</h2>
+            <p style="color: var(--text-muted); margin-top: 8px;">This application runs in the terminal only. Open your terminal and run:</p>
+            <code>python rag_failure_diagnostics_clinic.py</code>
+        </div>
+
+        <div class="loader" id="loader"></div>
+        <iframe id="app-frame" allow="microphone; camera"></iframe>
+    </main>
+
+    <script>
+        const appsData = [
+            { id: 'app1', name: 'Llama 3.1 Local RAG', port: 8501, icon: 'ph-cpu', category: 'Local Apps' },
+            { id: 'app2', name: 'Agentic RAG Embedding Gemma', port: 8502, icon: 'ph-brain', category: 'Local Apps' },
+            { id: 'app3', name: 'Local RAG Agent', port: 8503, icon: 'ph-robot', category: 'Local Apps' },
+            { id: 'app4', name: 'DeepSeek Local RAG', port: 8504, icon: 'ph-binoculars', category: 'Local Apps' },
+            
+            { id: 'app5', name: 'Qwen Local RAG', port: 8505, icon: 'ph-chat-circle-dots', category: 'Cloud Apps' },
+            { id: 'app6', name: 'Agentic RAG GPT-5', port: 8506, icon: 'ph-sparkle', category: 'Cloud Apps' },
+            { id: 'app7', name: 'Agentic RAG with Reasoning', port: 8507, icon: 'ph-tree-structure', category: 'Cloud Apps' },
+            { id: 'app8', name: 'Autonomous RAG', port: 8508, icon: 'ph-steering-wheel', category: 'Cloud Apps' },
+            { id: 'app9', name: 'RAG Chain', port: 8509, icon: 'ph-link', category: 'Cloud Apps' },
+            { id: 'app10', name: 'RAG Database Routing', port: 8510, icon: 'ph-arrows-split', category: 'Cloud Apps' },
+            { id: 'app11', name: 'Agentic RAG Math Agent', port: 8511, icon: 'ph-math-operations', category: 'Cloud Apps' },
+            { id: 'app12', name: 'AI Blog Search', port: 8512, icon: 'ph-article', category: 'Cloud Apps' },
+            { id: 'app13', name: 'Gemini Agentic RAG', port: 8513, icon: 'ph-star', category: 'Cloud Apps' },
+            { id: 'app14', name: 'Knowledge Graph RAG', port: 8514, icon: 'ph-graph', category: 'Cloud Apps' },
+            
+            { id: 'app15', name: 'Corrective RAG', port: 8515, icon: 'ph-wrench', category: 'Extra Apps' },
+            { id: 'app16', name: 'Hybrid Search RAG', port: 8516, icon: 'ph-magnifying-glass-plus', category: 'Extra Apps' },
+            { id: 'app17', name: 'RAG-as-a-Service', port: 8517, icon: 'ph-cloud', category: 'Extra Apps' },
+            { id: 'app18', name: 'RAG Agent Cohere', port: 8518, icon: 'ph-asterisk', category: 'Extra Apps' },
+            { id: 'app19', name: 'Contextual AI RAG', port: 8519, icon: 'ph-books', category: 'Extra Apps' },
+            { id: 'app20', name: 'Vision RAG', port: 8520, icon: 'ph-eye', category: 'Extra Apps' },
+            { id: 'app21', name: 'Local Hybrid Search RAG', port: 8521, icon: 'ph-hard-drives', category: 'Extra Apps' },
+            
+            { id: 'app22', name: 'Failure Diagnostics Clinic', port: null, icon: 'ph-terminal', category: 'CLI Apps' }
+        ];
+
+        let currentAppUrl = '';
+
+        function renderSidebar(filter = '') {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.innerHTML = '';
+            
+            // Group apps by category
+            const categories = {};
+            appsData.forEach(app => {
+                if (app.name.toLowerCase().includes(filter.toLowerCase())) {
+                    if (!categories[app.category]) categories[app.category] = [];
+                    categories[app.category].push(app);
+                }
+            });
+
+            for (const [category, apps] of Object.entries(categories)) {
+                // Add category title
+                const catTitle = document.createElement('div');
+                catTitle.className = 'category-title';
+                catTitle.textContent = category;
+                navMenu.appendChild(catTitle);
+
+                // Add app links
+                apps.forEach(app => {
+                    const link = document.createElement('div');
+                    link.className = 'app-link';
+                    link.dataset.id = app.id;
+                    link.innerHTML = `
+                        <i class="${app.icon}"></i>
+                        <span>${app.name}</span>
+                        <div class="status-indicator"></div>
+                    `;
+                    link.onclick = () => loadApp(app, link);
+                    navMenu.appendChild(link);
+                });
+            }
+        }
+
+        function loadApp(app, linkElement) {
+            // Update active state in sidebar
+            document.querySelectorAll('.app-link').forEach(el => el.classList.remove('active'));
+            linkElement.classList.add('active');
+
+            // Update Header
+            const headerTitle = document.getElementById('current-app-header');
+            headerTitle.innerHTML = `<i class="${app.icon}"></i> <span>${app.name}</span>`;
+
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const appFrame = document.getElementById('app-frame');
+            const cliNotice = document.getElementById('cli-notice');
+            const loader = document.getElementById('loader');
+
+            welcomeScreen.style.display = 'none';
+            
+            if (app.port === null) {
+                // CLI App
+                appFrame.style.display = 'none';
+                cliNotice.style.display = 'flex';
+                loader.style.display = 'none';
+                currentAppUrl = '';
+            } else {
+                // Web App
+                cliNotice.style.display = 'none';
+                appFrame.style.display = 'none';
+                loader.style.display = 'block';
+                
+                const url = `http://localhost:${app.port}`;
+                currentAppUrl = url;
+                
+                appFrame.src = url;
+                
+                // Hide loader when iframe loads
+                appFrame.onload = () => {
+                    loader.style.display = 'none';
+                    appFrame.style.display = 'block';
+                };
+                
+                // Fallback timeout in case onload doesn't trigger properly due to cross-origin issues
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    appFrame.style.display = 'block';
+                }, 1500);
+            }
+        }
+
+        function refreshIframe() {
+            const appFrame = document.getElementById('app-frame');
+            if (appFrame.src) {
+                const loader = document.getElementById('loader');
+                appFrame.style.display = 'none';
+                loader.style.display = 'block';
+                appFrame.src = appFrame.src; // Reloads the iframe
+            }
+        }
+
+        function openInNewTab() {
+            if (currentAppUrl) {
+                window.open(currentAppUrl, '_blank');
+            } else {
+                alert('Please select a web app first.');
+            }
+        }
+
+        // Search listener
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            renderSidebar(e.target.value);
+        });
+
+        // Initial Render
+        renderSidebar();
+
+    </script>
+</body>
+</html>

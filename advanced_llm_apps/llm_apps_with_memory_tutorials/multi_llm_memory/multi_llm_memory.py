@@ -59,7 +59,7 @@ if openai_api_key and anthropic_api_key:
 
             if llm_choice == 'OpenAI GPT-4o':
                 response = client.chat.completions.create(
-                    model="gpt-4o",
+                    model="gemini-2.5-flash",
                     messages=[
                         {"role": "system", "content": "You are a helpful assistant with access to past conversations."},
                         {"role": "user", "content": full_prompt}

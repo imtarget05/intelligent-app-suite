@@ -165,7 +165,7 @@ def get_agent(openai_key: str, firecrawl_key: str, e2b_key: str) -> Optional[Age
     return Agent(
         name="Life Insurance Advisor",
         model=OpenAIChat(
-            id="gpt-5-mini-2025-08-07",
+            id="gemini-2.5-flash",
             api_key=openai_key,
         ),
         tools=[

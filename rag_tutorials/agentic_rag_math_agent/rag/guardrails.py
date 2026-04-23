@@ -8,7 +8,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 print("🔐 Loaded OPENAI_API_KEY:", "✅ Found" if OPENAI_API_KEY else "❌ Missing")
 
 # Configure LM
-lm = dspy.LM(model="gpt-4o", api_key=OPENAI_API_KEY)
+lm = dspy.LM(model="gemini-2.5-flash", api_key=OPENAI_API_KEY)
 dspy.configure(lm=lm)
 
 # ✅ Signature for Input Guard

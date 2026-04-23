@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 from agno.agent import Agent
 from agno.knowledge.embedder.ollama import OllamaEmbedder
@@ -17,7 +18,7 @@ def load_knowledge_base():
     knowledge_base = Knowledge(
         vector_db=LanceDb(
             table_name="recipes",
-            uri="tmp/lancedb",
+            uri=os.path.expanduser("~/.cache/rag_tutorials/lancedb/agentic_rag_embedding_gemma"),
             search_type=SearchType.vector,
             embedder=OllamaEmbedder(id="embeddinggemma:latest", dimensions=768),
         ),

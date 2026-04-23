@@ -2,7 +2,7 @@ from agno.storage.sqlite import SqliteStorage
 from db.config import get_agent_session_db_path
 import json
 
-AGENT_MODEL = "gpt-4o"
+AGENT_MODEL = "gemini-2.5-flash"
 AVAILABLE_LANGS = [
     {"code": "en", "name": "English"},
     {"code": "zh", "name": "Chinese"},

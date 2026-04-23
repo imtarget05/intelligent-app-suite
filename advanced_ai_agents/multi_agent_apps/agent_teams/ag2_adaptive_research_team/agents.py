@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional
 from autogen import AssistantAgent
 
 
-DEFAULT_MODEL = "gpt-5-nano"
+DEFAULT_MODEL = "gemini-2.5-flash"
 
 
 def make_llm_config(api_key: str, model: str = DEFAULT_MODEL, temperature: float = 0.2) -> Dict[str, Any]:

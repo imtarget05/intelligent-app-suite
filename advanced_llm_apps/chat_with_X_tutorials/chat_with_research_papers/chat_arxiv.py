@@ -16,7 +16,7 @@ if openai_access_token:
     # Create an instance of the Assistant
     assistant = Agent(
     model=OpenAIChat(
-        id="gpt-4o",
+        id="gemini-2.5-flash",
         max_tokens=1024,
         temperature=0.9,
         api_key=openai_access_token) , tools=[ArxivTools()]

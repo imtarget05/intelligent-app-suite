@@ -91,7 +91,7 @@ if generate_code_btn and query:
         # Initialize OpenAI agent
         openai_agent = AgnoAgent(
             model=AgnoOpenAIChat(
-                id="gpt-4o",
+                id="gemini-2.5-flash",
                 api_key=st.session_state.api_keys["openai"]
             ),
             debug_mode=True,
@@ -128,7 +128,7 @@ elif generate_vis_btn:
             from browser_use import Agent 
             async with await browser.new_context() as context:
                 model = ChatOpenAI(
-                    model="gpt-4o", 
+                    model="gemini-2.5-flash", 
                     api_key=st.session_state.api_keys["openai"]
                 )
                 

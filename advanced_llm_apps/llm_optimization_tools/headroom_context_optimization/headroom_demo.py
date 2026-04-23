@@ -149,7 +149,7 @@ from langchain_openai import ChatOpenAI
 from headroom.integrations import HeadroomChatModel
 
 # Wrap your model - that's it!
-llm = HeadroomChatModel(ChatOpenAI(model="gpt-4o"))
+llm = HeadroomChatModel(ChatOpenAI(model="gemini-2.5-flash"))
 
 # Use exactly like before - compression is automatic
 response = llm.invoke("Analyze these 100 logs and find the error")

@@ -12,8 +12,7 @@ from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams
 from langchain_core.embeddings import Embeddings
-from agno.tools.exa import ExaTools
-from agno.embedder.ollama import OllamaEmbedder
+from agno.knowledge.embedder.ollama import OllamaEmbedder
 
 
 class OllamaEmbedderr(Embeddings):
@@ -41,12 +40,8 @@ COLLECTION_NAME = "test-deepseek-r1"
 st.title("🐋 Deepseek Local RAG Reasoning Agent")
 
 # Session State Initialization
-if 'google_api_key' not in st.session_state:
-    st.session_state.google_api_key = ""
-if 'qdrant_api_key' not in st.session_state:
-    st.session_state.qdrant_api_key = ""
 if 'qdrant_url' not in st.session_state:
-    st.session_state.qdrant_url = ""
+    st.session_state.qdrant_url = "http://localhost:6333"
 if 'model_version' not in st.session_state:
     st.session_state.model_version = "deepseek-r1:1.5b"  # Default to lighter model
 if 'vector_store' not in st.session_state:
@@ -96,15 +91,7 @@ if st.sidebar.button("🗑️ Clear Chat History"):
 
 # Show API Configuration only if RAG is enabled
 if st.session_state.rag_enabled:
-    st.sidebar.header("🔑 API Configuration")
-    qdrant_api_key = st.sidebar.text_input("Qdrant API Key", type="password", value=st.session_state.qdrant_api_key)
-    qdrant_url = st.sidebar.text_input("Qdrant URL", 
-                                     placeholder="https://your-cluster.cloud.qdrant.io:6333",
-                                     value=st.session_state.qdrant_url)
-
-    # Update session state
-    st.session_state.qdrant_api_key = qdrant_api_key
-    st.session_state.qdrant_url = qdrant_url
+    st.sidebar.info("🗄️ Qdrant: localhost:6333 (local Docker)")
     
     # Search Configuration (only shown in RAG mode)
     st.sidebar.header("🎯 Search Configuration")
@@ -144,20 +131,9 @@ if st.session_state.use_web_search:
 
 # Utility Functions
 def init_qdrant() -> QdrantClient | None:
-    """Initialize Qdrant client with configured settings.
-
-    Returns:
-        QdrantClient: The initialized Qdrant client if successful.
-        None: If the initialization fails.
-    """
-    if not all([st.session_state.qdrant_api_key, st.session_state.qdrant_url]):
-        return None
+    """Initialize Qdrant client using local Docker instance."""
     try:
-        return QdrantClient(
-            url=st.session_state.qdrant_url,
-            api_key=st.session_state.qdrant_api_key,
-            timeout=60
-        )
+        return QdrantClient(url="http://localhost:6333", timeout=60)
     except Exception as e:
         st.error(f"🔴 Qdrant connection failed: {str(e)}")
         return None
@@ -258,6 +234,7 @@ def create_vector_store(client, texts):
 
 def get_web_search_agent() -> Agent:
     """Initialize a web search agent."""
+    from agno.tools.exa import ExaTools
     return Agent(
         name="Web Search Agent",
         model=Ollama(id="llama3.2"),

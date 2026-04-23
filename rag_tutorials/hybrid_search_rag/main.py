@@ -1,11 +1,29 @@
 import os
 import logging
 import streamlit as st
-from raglite import RAGLiteConfig, insert_document, hybrid_search, retrieve_chunks, rerank_chunks, rag
+from dotenv import load_dotenv
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+from raglite import RAGLiteConfig, insert_documents, hybrid_search, retrieve_chunks, rerank_chunks, rag
 from rerankers import Reranker
 from typing import List
 from pathlib import Path
-import anthropic
+# Anthropic replaced with Gemini shim to avoid paid Anthropic
+import google.generativeai as genai
+class _GeminiMsg:
+    def __init__(self, text): self.content = [type("T",(object,),{"text": text})]
+class _GeminiMessages:
+    def __init__(self, client): self.client = client
+    def create(self, model=None, max_tokens=1024, system="", messages=None, temperature=0.7, **kw):
+        m = genai.GenerativeModel("gemini-2.5-flash", system_instruction=system)
+        user_text = "\n".join(msg["content"] for msg in (messages or []) if msg.get("role") == "user")
+        resp = m.generate_content(user_text, generation_config={"temperature": temperature, "max_output_tokens": max_tokens})
+        return _GeminiMsg(resp.text)
+class _GeminiAnthropicShim:
+    def __init__(self, api_key=None):
+        genai.configure(api_key=api_key or os.environ.get("GOOGLE_API_KEY"))
+        self.messages = _GeminiMessages(self)
+class anthropic:  # drop-in namespace
+    Anthropic = _GeminiAnthropicShim
 import time
 import warnings
 
@@ -42,10 +60,12 @@ def initialize_config(openai_key: str, anthropic_key: str, cohere_key: str, db_u
         os.environ["OPENAI_API_KEY"] = openai_key
         os.environ["ANTHROPIC_API_KEY"] = anthropic_key
         os.environ["COHERE_API_KEY"] = cohere_key
+        # LiteLLM (used by raglite) needs GEMINI_API_KEY for gemini/* models
+        os.environ["GEMINI_API_KEY"] = os.environ.get("GOOGLE_API_KEY", "") or anthropic_key
         
         return RAGLiteConfig(
             db_url=db_url,
-            llm="claude-3-opus-20240229",
+            llm="gemini/gemini-2.5-flash",
             embedder="text-embedding-3-large",
             embedder_normalize=True,
             chunk_max_size=2000,
@@ -70,7 +90,7 @@ def process_document(file_path: str) -> bool:
     try:
         if not st.session_state.get('my_config'):
             raise ValueError("Configuration not initialized")
-        insert_document(Path(file_path), config=st.session_state.my_config)
+        insert_documents(Path(file_path), config=st.session_state.my_config)
         return True
     except Exception as e:
         logger.error(f"Error processing document: {str(e)}")
@@ -107,7 +127,7 @@ def handle_fallback(query: str) -> str:
         is not related to any specific document, use your general knowledge to answer."""
         
         message = client.messages.create(
-            model="claude-3-sonnet-20240229",
+            model="gemini-2.5-flash",
             max_tokens=1024,
             system=system_prompt,
             messages=[{"role": "user", "content": query}],
@@ -131,7 +151,7 @@ def main():
         openai_key = st.text_input("OpenAI API Key", value=st.session_state.get('openai_key', ''), type="password", placeholder="sk-...")
         anthropic_key = st.text_input("Anthropic API Key", value=st.session_state.get('anthropic_key', ''), type="password", placeholder="sk-ant-...")
         cohere_key = st.text_input("Cohere API Key", value=st.session_state.get('cohere_key', ''), type="password", placeholder="Enter Cohere key")
-        db_url = st.text_input("Database URL", value=st.session_state.get('db_url', 'sqlite:///raglite.sqlite'), placeholder="sqlite:///raglite.sqlite")
+        db_url = st.text_input("Database URL", value=st.session_state.get('db_url', 'sqlite:////Users/mainguyenbinhtan/.cache/rag_tutorials/raglite_db/raglite.sqlite'), placeholder="sqlite:////Users/mainguyenbinhtan/.cache/rag_tutorials/raglite_db/raglite.sqlite")
         
         if st.button("Save Configuration"):
             try:

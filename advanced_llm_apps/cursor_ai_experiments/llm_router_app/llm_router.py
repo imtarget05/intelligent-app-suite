@@ -9,7 +9,7 @@ from routellm.controller import Controller
 # Initialize RouteLLM client
 client = Controller(
     routers=["mf"],
-    strong_model="gpt-4o-mini",
+    strong_model="gemini-2.5-flash",
     weak_model="together_ai/meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
 )
 

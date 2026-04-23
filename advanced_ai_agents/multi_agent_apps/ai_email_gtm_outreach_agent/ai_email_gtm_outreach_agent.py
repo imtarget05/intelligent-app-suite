@@ -21,7 +21,7 @@ def create_company_finder_agent() -> Agent:
     exa_tools = ExaTools(category="company")
     db = SqliteDb(db_file="tmp/gtm_outreach.db")
     return Agent(
-        model=OpenAIChat(id="gpt-5"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[exa_tools],
         db=db,
         enable_user_memories=True,
@@ -41,7 +41,7 @@ def create_contact_finder_agent() -> Agent:
     exa_tools = ExaTools()
     db = SqliteDb(db_file="tmp/gtm_outreach.db")
     return Agent(
-        model=OpenAIChat(id="gpt-4o"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[exa_tools],
         db=db,
         enable_user_memories=True,
@@ -73,7 +73,7 @@ def create_email_writer_agent(style_key: str = "Professional") -> Agent:
     db = SqliteDb(db_file="tmp/gtm_outreach.db")
     style_instruction = get_email_style_instruction(style_key)
     return Agent(
-        model=OpenAIChat(id="gpt-5"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[],
         db=db,
         enable_user_memories=True,
@@ -96,7 +96,7 @@ def create_research_agent() -> Agent:
     exa_tools = ExaTools()
     db = SqliteDb(db_file="tmp/gtm_outreach.db")
     return Agent(
-        model=OpenAIChat(id="gpt-5"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[exa_tools],
         db=db,
         enable_user_memories=True,

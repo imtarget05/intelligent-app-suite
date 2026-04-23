@@ -19,7 +19,7 @@ if openai_api_key and serp_api_key:
     researcher = Agent(
         name="Researcher",
         role="Searches for financial advice, investment opportunities, and savings strategies based on user preferences",
-        model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+        model=OpenAIChat(id="gemini-2.5-flash", api_key=openai_api_key),
         description=dedent(
             """\
         You are a world-class financial researcher. Given a user's financial goals and current financial situation,
@@ -39,7 +39,7 @@ if openai_api_key and serp_api_key:
     planner = Agent(
         name="Planner",
         role="Generates a personalized financial plan based on user preferences and research results",
-        model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+        model=OpenAIChat(id="gemini-2.5-flash", api_key=openai_api_key),
         description=dedent(
             """\
         You are a senior financial planner. Given a user's financial goals, current financial situation, and a list of research results,

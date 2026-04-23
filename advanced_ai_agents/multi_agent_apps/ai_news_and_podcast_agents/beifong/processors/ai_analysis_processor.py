@@ -8,7 +8,7 @@ from db.config import get_tracking_db_path
 from db.articles import get_unprocessed_articles, update_article_status
 from utils.load_api_keys import load_api_key
 
-WEB_PAGE_ANALYSE_MODEL = "gpt-4o"
+WEB_PAGE_ANALYSE_MODEL = "gemini-2.5-flash"
 MODEL_INSTRUCTION = "You are a helpful assistant that analyzes articles and extracts structured information."
 
 

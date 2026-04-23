@@ -12,7 +12,7 @@ db = SqliteDb(db_file="agents.db")
 web_agent = Agent(
     name="Web Agent",
     role="Search the web for information",
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(id="gemini-2.5-flash"),
     tools=[DuckDuckGoTools()],
     db=db,
     add_history_to_context=True,
@@ -22,7 +22,7 @@ web_agent = Agent(
 finance_agent = Agent(
     name="Finance Agent",
     role="Get financial data",
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(id="gemini-2.5-flash"),
     tools=[YFinanceTools(include_tools=["get_current_stock_price", "get_analyst_recommendations", "get_company_info", "get_company_news"])],
     instructions=["Always use tables to display data"],
     db=db,
@@ -32,7 +32,7 @@ finance_agent = Agent(
 
 agent_team = Team(
     name="Agent Team (Web+Finance)",
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(id="gemini-2.5-flash"),
     members=[web_agent, finance_agent],
     debug_mode=True,
     markdown=True,

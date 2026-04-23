@@ -20,7 +20,14 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams
 import tempfile
 import os
-from langchain_anthropic import ChatAnthropic
+from dotenv import load_dotenv
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+# Anthropic replaced with Gemini (to avoid paid Anthropic usage)
+from langchain_google_genai import ChatGoogleGenerativeAI
+def ChatAnthropic(model=None, api_key=None, anthropic_api_key=None, temperature=0, max_tokens=1000, **kw):
+    key = api_key or anthropic_api_key or os.environ.get("GOOGLE_API_KEY")
+    return ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=key,
+                                  temperature=temperature, max_output_tokens=max_tokens)
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 
@@ -33,11 +40,11 @@ def initialize_session_state():
     if 'initialized' not in st.session_state:
         st.session_state.initialized = False
         # Initialize API keys and URLs
-        st.session_state.anthropic_api_key = ""
-        st.session_state.openai_api_key = ""
-        st.session_state.tavily_api_key = ""
-        st.session_state.qdrant_api_key = ""
-        st.session_state.qdrant_url = "http://localhost:6333"
+        st.session_state.anthropic_api_key = os.environ.get("GOOGLE_API_KEY", "")
+        st.session_state.openai_api_key = os.environ.get("OPENAI_API_KEY", "")
+        st.session_state.tavily_api_key = os.environ.get("TAVILY_API_KEY", "")
+        st.session_state.qdrant_api_key = os.environ.get("QDRANT_API_KEY", "")
+        st.session_state.qdrant_url = os.environ.get("QDRANT_URL", "http://localhost:6333")
         st.session_state.doc_url = "https://arxiv.org/pdf/2307.09288.pdf"  
         
 def setup_sidebar():

@@ -17,7 +17,7 @@ embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 # Initialize pharma database
 db = Chroma(collection_name="pharma_database",
             embedding_function=embedding_model,
-            persist_directory='./pharma_db')
+            persist_directory=os.path.expanduser('~/.cache/rag_tutorials/chromadb/pharma_db'))
 
 def format_docs(docs):
     """Formats a list of document objects into a single string.

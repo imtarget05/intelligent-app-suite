@@ -7,7 +7,7 @@ from agno.os import AgentOS
 # create the AI investment agent
 agent = Agent(
     name="AI Investment Agent",
-    model=OpenAIChat(id="gpt-5.2-2025-12-11"),
+    model=OpenAIChat(id="gemini-2.5-flash"),
     tools=[YFinanceTools()],
     description="You are an investment analyst that researches stock prices, analyst recommendations, and stock fundamentals.",
     instructions=[

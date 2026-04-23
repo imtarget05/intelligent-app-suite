@@ -168,7 +168,7 @@ def main():
                                 legal_researcher = Agent(
                                     name="Legal Researcher",
                                     role="Legal research specialist",
-                                    model=OpenAIChat(id="gpt-5"),
+                                    model=OpenAIChat(id="gemini-2.5-flash"),
                                     tools=[DuckDuckGoTools()],
                                     knowledge=st.session_state.knowledge_base,
                                     search_knowledge=True,
@@ -185,7 +185,7 @@ def main():
                                 contract_analyst = Agent(
                                     name="Contract Analyst",
                                     role="Contract analysis specialist",
-                                    model=OpenAIChat(id="gpt-5"),
+                                    model=OpenAIChat(id="gemini-2.5-flash"),
                                     knowledge=st.session_state.knowledge_base,
                                     search_knowledge=True,
                                     instructions=[
@@ -199,7 +199,7 @@ def main():
                                 legal_strategist = Agent(
                                     name="Legal Strategist", 
                                     role="Legal strategy specialist",
-                                    model=OpenAIChat(id="gpt-5"),
+                                    model=OpenAIChat(id="gemini-2.5-flash"),
                                     knowledge=st.session_state.knowledge_base,
                                     search_knowledge=True,
                                     instructions=[
@@ -213,7 +213,7 @@ def main():
                                 # Legal Agent Team
                                 st.session_state.legal_team = Team(
                                     name="Legal Team Lead",
-                                    model=OpenAIChat(id="gpt-5"),
+                                    model=OpenAIChat(id="gemini-2.5-flash"),
                                     members=[legal_researcher, contract_analyst, legal_strategist],
                                     knowledge=st.session_state.knowledge_base,
                                     search_knowledge=True,

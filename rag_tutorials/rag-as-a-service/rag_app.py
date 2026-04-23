@@ -1,6 +1,22 @@
 import streamlit as st
 import requests
-from anthropic import Anthropic
+import os
+from dotenv import load_dotenv
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+# Anthropic replaced with Gemini shim
+import google.generativeai as genai
+class _Msg:
+    def __init__(self, text): self.content = [type("T",(object,),{"text": text})]
+class _Messages:
+    def create(self, model=None, max_tokens=1024, system="", messages=None, **kw):
+        m = genai.GenerativeModel("gemini-2.5-flash", system_instruction=system)
+        user_text = "\n".join(msg["content"] for msg in (messages or []) if msg.get("role") == "user")
+        resp = m.generate_content(user_text, generation_config={"max_output_tokens": max_tokens})
+        return _Msg(resp.text)
+class Anthropic:
+    def __init__(self, api_key=None):
+        genai.configure(api_key=api_key or os.environ.get("GOOGLE_API_KEY"))
+        self.messages = _Messages()
 import time
 from typing import List, Dict, Optional
 from urllib.parse import urlparse
@@ -83,7 +99,7 @@ class RAGPipeline:
         Generate response using Claude 4.5 Sonnet.
         """
         message = self.anthropic_client.messages.create(
-            model="claude-sonnet-4-5",
+            model="gemini-2.5-flash",
             max_tokens=1024,
             system=system_prompt,
             messages=[

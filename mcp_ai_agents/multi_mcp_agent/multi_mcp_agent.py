@@ -70,7 +70,7 @@ async def main():
         # Create the agent with comprehensive instructions
         agent = Agent(
             name="MultiMCPAgent",
-            model=OpenAIChat(id="gpt-4o", api_key=OPENAI_API_KEY),
+            model=OpenAIChat(id="gemini-2.5-flash", api_key=OPENAI_API_KEY),
             tools=[mcp_tools],
             description="Advanced AI assistant with GitHub, Perplexity, and Calendar integration",
             instructions=dedent(f"""

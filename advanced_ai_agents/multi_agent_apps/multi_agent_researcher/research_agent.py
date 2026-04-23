@@ -20,14 +20,14 @@ os.environ["OPENAI_API_KEY"] = openai_api_key
 if openai_api_key:
     hn_researcher = Agent(
         name="HackerNews Researcher",
-        model=OpenAIChat(id="gpt-4o-mini"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         role="Gets top stories from hackernews.",
         tools=[HackerNewsTools()],
     )
 
     web_searcher = Agent(
         name="Web Searcher",
-        model=OpenAIChat(id="gpt-4o-mini"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         role="Searches the web for information on a topic",
         tools=[DuckDuckGoTools()],
         add_datetime_to_context=True,
@@ -35,14 +35,14 @@ if openai_api_key:
 
     article_reader = Agent(
         name="Article Reader",
-        model=OpenAIChat(id="gpt-4o-mini"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         role="Reads articles from URLs.",
         tools=[Newspaper4kTools()],
     )
 
     hackernews_team = Team(
         name="HackerNews Team",
-        model=OpenAIChat(id="gpt-4o-mini"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         members=[hn_researcher, web_searcher, article_reader],
         instructions=[
             "First, search hackernews for what the user is asking about.",

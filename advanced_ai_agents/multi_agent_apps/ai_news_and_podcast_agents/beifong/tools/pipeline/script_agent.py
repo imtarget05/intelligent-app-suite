@@ -98,7 +98,7 @@ def script_agent_run(
         if not content_texts:
             return {}
         podcast_script_agent = Agent(
-            model=OpenAIChat(id="gpt-4o-mini"),
+            model=OpenAIChat(id="gemini-2.5-flash"),
             instructions=PODCAST_AGENT_INSTRUCTIONS,
             description=PODCAST_AGENT_DESCRIPTION,
             use_json_mode=True,

@@ -140,7 +140,7 @@ if st.button("🚀 Start Analysis", type="primary"):
                     # Initialize the Agno agent once (outside the loop)
                     if openai_api_key:
                         agno_agent = Agent(
-                            model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+                            model=OpenAIChat(id="gemini-2.5-flash", api_key=openai_api_key),
                             instructions="""You are an expert business analyst who provides concise, insightful summaries of companies.
                             You will be given structured data about a company including its name, description, mission, and product features.
                             Your task is to analyze this information and provide a brief, compelling summary that highlights:

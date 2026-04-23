@@ -79,7 +79,7 @@ if openai_api_key:
 
         # Generate response
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gemini-2.5-flash",
             messages=[
                 {"role": "system", "content": "You are a travel assistant with access to past conversations."},
                 {"role": "user", "content": full_prompt}

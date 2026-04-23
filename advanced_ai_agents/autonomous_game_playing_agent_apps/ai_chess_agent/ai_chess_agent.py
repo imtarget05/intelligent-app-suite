@@ -99,14 +99,14 @@ if st.session_state.openai_api_key:
     try:
         agent_white_config_list = [
             {
-                "model": "gpt-4o-mini",
+                "model": "gemini-2.5-flash",
                 "api_key": st.session_state.openai_api_key,
             },
         ]
 
         agent_black_config_list = [
             {
-                "model": "gpt-4o-mini",
+                "model": "gemini-2.5-flash",
                 "api_key": st.session_state.openai_api_key,
             },
         ]

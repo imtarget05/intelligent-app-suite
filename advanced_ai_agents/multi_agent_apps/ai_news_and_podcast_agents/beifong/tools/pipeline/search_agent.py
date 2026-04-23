@@ -64,7 +64,7 @@ def search_agent_run(query: str) -> str:
     try:
         session_id = str(uuid.uuid4())
         search_agent = Agent(
-            model=OpenAIChat(id="gpt-4o-mini"),
+            model=OpenAIChat(id="gemini-2.5-flash"),
             instructions=SEARCH_AGENT_INSTRUCTIONS,
             description=SEARCH_AGENT_DESCRIPTION,
             use_json_mode=True,

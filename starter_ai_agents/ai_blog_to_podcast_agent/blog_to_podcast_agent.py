@@ -34,7 +34,7 @@ if st.button("🎙️ Generate Podcast", disabled=not all([openai_key, elevenlab
                 # Create agent for scraping and summarization
                 agent = Agent(
                     name="Blog Summarizer",
-                    model=OpenAIChat(id="gpt-4o"),
+                    model=OpenAIChat(id="gemini-2.5-flash"),
                     tools=[FirecrawlTools()],
                     instructions=[
                         "Scrape the blog URL and create a concise, engaging summary (max 2000 characters) suitable for a podcast.",

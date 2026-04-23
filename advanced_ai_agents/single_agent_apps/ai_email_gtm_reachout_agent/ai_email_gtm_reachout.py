@@ -343,7 +343,7 @@ class PersonalisedEmailGenerator(Workflow):
     """)
 
     company_finder: Agent = Agent(
-        model=OpenAIChat(id="gpt-5"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[ExaTools(api_key=os.environ["EXA_API_KEY"])],
         description="Expert at finding companies that match specific criteria using web search",
         instructions=dedent("""\
@@ -371,7 +371,7 @@ class PersonalisedEmailGenerator(Workflow):
     )
 
     contact_finder: Agent = Agent(
-        model=OpenAIChat(id="gpt-5"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[ExaTools(api_key=os.environ["EXA_API_KEY"])],
         description="Expert at finding contact information for decision makers at companies",
         instructions=dedent("""\
@@ -395,7 +395,7 @@ class PersonalisedEmailGenerator(Workflow):
     )
 
     company_researcher: Agent = Agent(
-        model=OpenAIChat(id="gpt-5"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[ExaTools(api_key=os.environ["EXA_API_KEY"])],
         description="Expert at researching company details for personalization",
         instructions=dedent("""\
@@ -421,7 +421,7 @@ class PersonalisedEmailGenerator(Workflow):
     )
 
     email_creator: Agent = Agent(
-        model=OpenAIChat(id="gpt-5"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         description=dedent("""\
             You are writing for a friendly, empathetic 20-year-old sales rep whose
             style is cool, concise, and respectful. Tone is casual yet professional.

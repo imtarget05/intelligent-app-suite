@@ -5,10 +5,15 @@ Framework-agnostic example for awesome-llm-apps.
 Diagnose LLM + RAG bugs into reusable failure patterns (P01–P12).
 """
 
+import argparse
 import json
 import os
+import sys
 import textwrap
 from getpass import getpass
+
+from dotenv import load_dotenv
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 from openai import OpenAI
 
@@ -168,14 +173,17 @@ Return your answer as structured Markdown with the following sections:
     return textwrap.dedent(header).strip() + "\n\nFailure patterns:\n" + patterns_block
 
 
-def make_client_and_model():
+def make_client_and_model(non_interactive: bool = False):
     """Create an OpenAI-compatible client and read model settings."""
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
+        if non_interactive:
+            print("ERROR: OPENAI_API_KEY not set (check .env).", file=sys.stderr)
+            sys.exit(2)
         api_key = getpass("Enter your OpenAI-compatible API key: ").strip()
 
     base_url = os.getenv("OPENAI_BASE_URL", "").strip() or "https://api.openai.com/v1"
-    model_name = os.getenv("OPENAI_MODEL", "").strip() or "gpt-4o"
+    model_name = os.getenv("OPENAI_MODEL", "").strip() or "gemini-2.5-flash"
 
     client = OpenAI(api_key=api_key, base_url=base_url)
     print(f"\nUsing base URL: {base_url}")
@@ -283,16 +291,68 @@ def run_once(client: OpenAI, model_name: str, system_prompt: str) -> None:
 
 
 def main():
+    parser = argparse.ArgumentParser(description="RAG Failure Diagnostics Clinic")
+    parser.add_argument("--example", type=int, choices=[1, 2, 3],
+                        help="Run a built-in example non-interactively")
+    parser.add_argument("--bug", type=str,
+                        help="Bug description (string or @path/to/file.txt)")
+    parser.add_argument("--output", type=str, default="rag_failure_report.json",
+                        help="Where to save the JSON report")
+    args = parser.parse_args()
+
+    non_interactive = bool(args.example or args.bug)
     system_prompt = build_system_prompt()
-    client, model_name = make_client_and_model()
+    client, model_name = make_client_and_model(non_interactive=non_interactive)
+
+    if non_interactive:
+        if args.example:
+            bug = {1: EXAMPLE_1, 2: EXAMPLE_2, 3: EXAMPLE_3}[args.example]
+        else:
+            if args.bug.startswith("@"):
+                with open(args.bug[1:], "r", encoding="utf-8") as f:
+                    bug = f.read()
+            else:
+                bug = args.bug
+        run_diagnose(client, model_name, system_prompt, bug, args.output)
+        return
 
     while True:
-        run_once(client, model_name, system_prompt)
+        bug = choose_bug_description()
+        if bug:
+            run_diagnose(client, model_name, system_prompt, bug, args.output)
         again = input("Debug another bug? (y/n): ").strip().lower()
         if again != "y":
             print("Session finished. Goodbye.")
             break
         print()
+
+
+def run_diagnose(client: OpenAI, model_name: str, system_prompt: str,
+                 bug: str, output_path: str) -> None:
+    print("Running diagnosis ...\n")
+    try:
+        completion = client.chat.completions.create(
+            model=model_name,
+            temperature=0.2,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": "Here is the bug description. "
+                                             "Follow the pattern rules described above.\n\n" + bug},
+            ],
+        )
+    except Exception as exc:
+        print(f"Error while calling the model: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    reply = completion.choices[0].message.content or ""
+    print(reply)
+    report = {"bug_description": bug, "model": model_name, "assistant_markdown": reply}
+    try:
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2, ensure_ascii=False)
+        print(f"\nSaved report to {output_path}\n")
+    except OSError as exc:
+        print(f"\nCould not write report file: {exc}\n", file=sys.stderr)
 
 
 if __name__ == "__main__":

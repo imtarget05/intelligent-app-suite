@@ -27,7 +27,7 @@ def init_session_state():
     if 'openai_api_key' not in st.session_state:
         st.session_state.openai_api_key = ""
     if 'qdrant_url' not in st.session_state:
-        st.session_state.qdrant_url = ""
+        st.session_state.qdrant_url = "http://localhost:6333"
     if 'qdrant_api_key' not in st.session_state:
         st.session_state.qdrant_api_key = ""
     if 'embeddings' not in st.session_state:
@@ -70,8 +70,7 @@ COLLECTIONS: Dict[DatabaseType, CollectionConfig] = {
 def initialize_models():
     """Initialize OpenAI models and Qdrant client"""
     if (st.session_state.openai_api_key and 
-        st.session_state.qdrant_url and 
-        st.session_state.qdrant_api_key):
+        st.session_state.qdrant_url):
         
         os.environ["OPENAI_API_KEY"] = st.session_state.openai_api_key
         st.session_state.embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
@@ -80,7 +79,7 @@ def initialize_models():
         try:
             client = QdrantClient(
                 url=st.session_state.qdrant_url,
-                api_key=st.session_state.qdrant_api_key
+                api_key=st.session_state.qdrant_api_key or None
             )
             
             # Test connection
@@ -137,7 +136,7 @@ def create_routing_agent() -> Agent:
     """Creates a routing agent using agno framework"""
     return Agent(
         model=OpenAIChat(
-            id="gpt-4o",
+            id="gemini-2.5-flash",
             api_key=st.session_state.openai_api_key
         ),
         tools=[],
@@ -303,11 +302,11 @@ def main():
         qdrant_url = st.text_input(
             "Enter Qdrant URL:",
             value=st.session_state.qdrant_url,
-            help="Example: https://your-cluster.qdrant.tech"
+            help="Default: http://localhost:6333"
         )
         
         qdrant_api_key = st.text_input(
-            "Enter Qdrant API Key:",
+            "Enter Qdrant API Key (optional for local):",
             type="password",
             value=st.session_state.qdrant_api_key
         )
@@ -322,8 +321,7 @@ def main():
             
         # Initialize models if all credentials are provided
         if (st.session_state.openai_api_key and 
-            st.session_state.qdrant_url and 
-            st.session_state.qdrant_api_key):
+            st.session_state.qdrant_url):
             if initialize_models():
                 st.success("Connected to OpenAI and Qdrant successfully!")
             else:

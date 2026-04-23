@@ -308,7 +308,7 @@ def run_agent_step(
     system_prompt: str,
     user_query: str,
     previous_context: str,
-    model: str = "gpt-4o-mini",
+    model: str = "gemini-2.5-flash",
 ) -> str:
     """Execute a single agent step via OpenAI chat completion.
 

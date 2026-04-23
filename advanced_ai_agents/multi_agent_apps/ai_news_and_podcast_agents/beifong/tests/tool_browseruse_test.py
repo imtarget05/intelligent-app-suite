@@ -5,7 +5,7 @@ import asyncio
 
 
 load_dotenv()
-llm = ChatOpenAI(model="gpt-4o")
+llm = ChatOpenAI(model="gemini-2.5-flash")
 
 
 async def main():

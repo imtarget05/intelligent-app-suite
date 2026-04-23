@@ -74,7 +74,7 @@ async def main():
         # Create the agent
         agent = Agent(
             name="NotionDocsAgent",
-            model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+            model=OpenAIChat(id="gemini-2.5-flash", api_key=openai_api_key),
             tools=[mcp_tools],
             description="Agent to query and modify Notion docs via MCP",
             instructions=dedent(f"""

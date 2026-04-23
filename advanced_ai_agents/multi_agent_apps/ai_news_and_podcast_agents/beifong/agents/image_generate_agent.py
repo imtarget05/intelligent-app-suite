@@ -73,7 +73,7 @@ def image_generation_agent_run(agent: Agent, query: str) -> str:
 
     try:
         image_agent = Agent(
-            model=OpenAIChat(id="gpt-4o"),
+            model=OpenAIChat(id="gemini-2.5-flash"),
             tools=[DalleTools()],
             description=IMAGE_GENERATION_AGENT_DESCRIPTION,
             instructions=IMAGE_GENERATION_AGENT_INSTRUCTIONS,

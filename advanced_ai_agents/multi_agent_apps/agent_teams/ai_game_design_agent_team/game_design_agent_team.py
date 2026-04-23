@@ -114,7 +114,7 @@ if st.button("Generate Game Concept"):
             - Detail Level: {depth}
             """
 
-            llm_config = {"config_list": [{"model": "gpt-4o-mini","api_key": api_key}]}
+            llm_config = {"config_list": [{"model": "gemini-2.5-flash","api_key": api_key}]}
 
             # initialize context variables
             context_variables = {

@@ -14,7 +14,7 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 def main():
 
     # LLM configuration
-    openai_config = OpenAILLMConfig(model="gpt-4o-mini", openai_key=OPENAI_API_KEY, stream=True, output_response=True, max_tokens=16000)
+    openai_config = OpenAILLMConfig(model="gemini-2.5-flash", openai_key=OPENAI_API_KEY, stream=True, output_response=True, max_tokens=16000)
     # Initialize the language model
     llm = OpenAILLM(config=openai_config)
 

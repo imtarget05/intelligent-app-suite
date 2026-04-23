@@ -62,7 +62,7 @@ if google_key and openai_key:
         """Load and initialize the knowledge base with vector database"""
         kb = Knowledge(
             vector_db=LanceDb(
-                uri="tmp/lancedb",
+                uri=os.path.expanduser("~/.cache/rag_tutorials/lancedb/agentic_rag_with_reasoning"),
                 table_name="agno_docs",
                 search_type=SearchType.vector,  # Use vector search
                 embedder=OpenAIEmbedder(

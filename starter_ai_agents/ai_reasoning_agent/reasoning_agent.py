@@ -2,10 +2,10 @@ from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from rich.console import Console
 
-regular_agent = Agent(model=OpenAIChat(id="gpt-4o-mini"), markdown=True)
+regular_agent = Agent(model=OpenAIChat(id="gemini-2.5-flash"), markdown=True)
 console = Console()
 reasoning_agent = Agent(
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(id="gemini-2.5-flash"),
     reasoning=True,
     markdown=True,
     structured_outputs=True,

@@ -76,7 +76,7 @@ if openai_api_key and serp_api_key:
     researcher = Agent(
         name="Researcher",
         role="Searches for travel destinations, activities, and accommodations based on user preferences",
-        model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+        model=OpenAIChat(id="gemini-2.5-flash", api_key=openai_api_key),
         description=dedent(
             """\
         You are a world-class travel researcher. Given a travel destination and the number of days the user wants to travel for,
@@ -96,7 +96,7 @@ if openai_api_key and serp_api_key:
     planner = Agent(
         name="Planner",
         role="Generates a draft itinerary based on user preferences and research results",
-        model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+        model=OpenAIChat(id="gemini-2.5-flash", api_key=openai_api_key),
         description=dedent(
             """\
         You are a senior travel planner. Given a travel destination, the number of days the user wants to travel for, and a list of research results,

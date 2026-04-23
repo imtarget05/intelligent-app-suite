@@ -84,7 +84,7 @@ class HealthRecommendationAgent:
     def __init__(self, openai_key: str) -> None:
         self.agent = Agent(
             model=OpenAIChat(
-                id="gpt-4o",
+                id="gemini-2.5-flash",
                 name="Health Recommendation Agent",
                 api_key=openai_key
             )

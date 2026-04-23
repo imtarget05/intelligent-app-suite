@@ -84,7 +84,7 @@ if uploaded_file is not None and "openai_key" in st.session_state:
         
         # Initialize the Agent with DuckDB and Pandas tools
         data_analyst_agent = Agent(
-            model=OpenAIChat(id="gpt-4o", api_key=st.session_state.openai_key),
+            model=OpenAIChat(id="gemini-2.5-flash", api_key=st.session_state.openai_key),
             tools=[duckdb_tools, PandasTools()],
             system_message="You are an expert data analyst. Use the 'uploaded_data' table to answer user queries. Generate SQL queries using DuckDB tools to solve the user's query. Provide clear and concise answers with the results.",
             markdown=True,

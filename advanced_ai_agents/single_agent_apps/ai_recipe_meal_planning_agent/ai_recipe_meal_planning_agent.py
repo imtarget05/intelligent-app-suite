@@ -273,7 +273,7 @@ def create_meal_plan(dietary_preference: str = "balanced", people: int = 2, days
 async def create_agent():
     agent = Agent(
         name="MealPlanningExpert",
-        model=OpenAIChat(id="gpt-5-mini"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         tools=[search_recipes, analyze_nutrition, estimate_costs, create_meal_plan, DuckDuckGoTools()],
         instructions=dedent("""\
             You are an expert meal planning assistant. Provide detailed, helpful responses:

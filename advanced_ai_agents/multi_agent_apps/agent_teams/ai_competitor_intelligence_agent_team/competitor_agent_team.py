@@ -82,7 +82,7 @@ if "openai_api_key" in st.session_state and "firecrawl_api_key" in st.session_st
                 num_results=3
             )
             competitor_finder_agent = Agent(
-                model=OpenAIChat(id="gpt-4o", api_key=st.session_state.openai_api_key),
+                model=OpenAIChat(id="gemini-2.5-flash", api_key=st.session_state.openai_api_key),
                 tools=[exa_tools],
                 debug_mode=True,
                 markdown=True,
@@ -94,21 +94,21 @@ if "openai_api_key" in st.session_state and "firecrawl_api_key" in st.session_st
             )
 
         firecrawl_agent = Agent(
-            model=OpenAIChat(id="gpt-4o", api_key=st.session_state.openai_api_key),
+            model=OpenAIChat(id="gemini-2.5-flash", api_key=st.session_state.openai_api_key),
             tools=[firecrawl_tools, DuckDuckGoTools()],
             debug_mode=True,
             markdown=True
         )
 
         analysis_agent = Agent(
-            model=OpenAIChat(id="gpt-4o", api_key=st.session_state.openai_api_key),
+            model=OpenAIChat(id="gemini-2.5-flash", api_key=st.session_state.openai_api_key),
             debug_mode=True,
             markdown=True
         )
 
         # New agent for comparing competitor data
         comparison_agent = Agent(
-            model=OpenAIChat(id="gpt-4o", api_key=st.session_state.openai_api_key),
+            model=OpenAIChat(id="gemini-2.5-flash", api_key=st.session_state.openai_api_key),
             debug_mode=True,
             markdown=True
         )

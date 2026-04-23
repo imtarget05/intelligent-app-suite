@@ -121,7 +121,7 @@ with st.sidebar:
     api_key = st.text_input("Enter your OpenAI API Key:", type="password")
     if api_key:
         os.environ["OPENAI_API_KEY"] = api_key
-        gpt4_model = ChatOpenAI(model_name="gpt-4o-mini")
+        gpt4_model = ChatOpenAI(model_name="gemini-2.5-flash")
         st.success("API Key set successfully!")
     else:
         st.info("Please enter your OpenAI API Key to proceed.")

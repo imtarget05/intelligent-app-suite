@@ -51,7 +51,7 @@ except Exception as e:
 professor_agent = Agent(
     name="Professor",
     role="Research and Knowledge Specialist", 
-    model=OpenAIChat(id="gpt-4o-mini", api_key=st.session_state['openai_api_key']),
+    model=OpenAIChat(id="gemini-2.5-flash", api_key=st.session_state['openai_api_key']),
     tools=[google_docs_tool],
     instructions=[
         "Create a comprehensive knowledge base that covers fundamental concepts, advanced topics, and current developments of the given topic.",
@@ -67,7 +67,7 @@ professor_agent = Agent(
 academic_advisor_agent = Agent(
     name="Academic Advisor",
     role="Learning Path Designer",
-    model=OpenAIChat(id="gpt-4o-mini", api_key=st.session_state['openai_api_key']),
+    model=OpenAIChat(id="gemini-2.5-flash", api_key=st.session_state['openai_api_key']),
     tools=[google_docs_tool],
     instructions=[
         "Using the knowledge base for the given topic, create a detailed learning roadmap.",
@@ -85,7 +85,7 @@ academic_advisor_agent = Agent(
 research_librarian_agent = Agent(
     name="Research Librarian",
     role="Learning Resource Specialist",
-    model=OpenAIChat(id="gpt-4o-mini", api_key=st.session_state['openai_api_key']),
+    model=OpenAIChat(id="gemini-2.5-flash", api_key=st.session_state['openai_api_key']),
     tools=[google_docs_tool, SerpApiTools(api_key=st.session_state['serpapi_api_key']) ],
     instructions=[
         "Make a list of high-quality learning resources for the given topic.",
@@ -102,7 +102,7 @@ research_librarian_agent = Agent(
 teaching_assistant_agent = Agent(
     name="Teaching Assistant",
     role="Exercise Creator",
-    model=OpenAIChat(id="gpt-4o-mini", api_key=st.session_state['openai_api_key']),
+    model=OpenAIChat(id="gemini-2.5-flash", api_key=st.session_state['openai_api_key']),
     tools=[google_docs_tool, SerpApiTools(api_key=st.session_state['serpapi_api_key'])],
     instructions=[
         "Create comprehensive practice materials for the given topic.",

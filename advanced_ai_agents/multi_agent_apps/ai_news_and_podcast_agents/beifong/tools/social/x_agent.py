@@ -74,7 +74,7 @@ SENTIMENT_AGENT_INSTRUCTIONS = dedent("""
 def analyze_posts_sentiment(posts_data):
     session_id = str(uuid.uuid4())
     analysis_agent = Agent(
-        model=OpenAIChat(id="gpt-4o"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         instructions=SENTIMENT_AGENT_INSTRUCTIONS,
         description=SENTIMENT_AGENT_DESCRIPTION,
         use_json_mode=True,

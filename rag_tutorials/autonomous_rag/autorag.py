@@ -32,7 +32,7 @@ def setup_assistant(api_key: str) -> Agent:
     Returns:
         Agent: An initialized Assistant agent configured with a language model, 
         knowledge base, storage, and additional tools for enhanced functionality."""
-    llm = OpenAIChat(id="gpt-4o-mini", api_key=api_key)
+    llm = OpenAIChat(id="gemini-2.5-flash", api_key=api_key)
     # Set up the Assistant with storage, knowledge base, and tools
     return Agent(
         id="auto_rag_agent",  # Name of the Assistant

@@ -1,4 +1,5 @@
 agno>=2.2.10
-qdrant-client
+lancedb
 ollama
-pypdf 
+pypdf
+streamlit

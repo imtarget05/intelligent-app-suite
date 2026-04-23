@@ -47,7 +47,7 @@ if 'google_api_key' not in st.session_state:
 if 'qdrant_api_key' not in st.session_state:
     st.session_state.qdrant_api_key = ""
 if 'qdrant_url' not in st.session_state:
-    st.session_state.qdrant_url = ""
+    st.session_state.qdrant_url = "http://localhost:6333"
 if 'vector_store' not in st.session_state:
     st.session_state.vector_store = None
 if 'processed_documents' not in st.session_state:
@@ -69,7 +69,7 @@ st.sidebar.header("🔑 API Configuration")
 google_api_key = st.sidebar.text_input("Google API Key", type="password", value=st.session_state.google_api_key)
 qdrant_api_key = st.sidebar.text_input("Qdrant API Key", type="password", value=st.session_state.qdrant_api_key)
 qdrant_url = st.sidebar.text_input("Qdrant URL", 
-                                 placeholder="https://your-cluster.cloud.qdrant.io:6333",
+                                 placeholder="http://localhost:6333",
                                  value=st.session_state.qdrant_url)
 
 # Clear Chat Button
@@ -118,12 +118,12 @@ st.session_state.similarity_threshold = st.sidebar.slider(
 # Utility Functions
 def init_qdrant():
     """Initialize Qdrant client with configured settings."""
-    if not all([st.session_state.qdrant_api_key, st.session_state.qdrant_url]):
+    if not st.session_state.qdrant_url:
         return None
     try:
         return QdrantClient(
             url=st.session_state.qdrant_url,
-            api_key=st.session_state.qdrant_api_key,
+            api_key=st.session_state.qdrant_api_key or None,
             timeout=60
         )
     except Exception as e:

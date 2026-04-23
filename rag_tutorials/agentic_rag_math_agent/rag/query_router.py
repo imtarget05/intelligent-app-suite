@@ -78,7 +78,7 @@ Web Content:
 Now write a clear, accurate, and step-by-step explanation of the student's question.
 Only include valid math steps — do not guess or make up answers.
 """
-    llm = OpenAI(api_key=OPENAI_API_KEY, model="gpt-4o")
+    llm = OpenAI(api_key=OPENAI_API_KEY, model="gemini-2.5-flash")
     response = llm.complete(prompt)
     return response.text
 
@@ -118,7 +118,7 @@ Do not change the final answer. You are only allowed to explain what is already 
 Use the KB content as your only source. Do not guess or recalculate.
 """
 
-            llm = OpenAI(api_key=OPENAI_API_KEY, model="gpt-4o")
+            llm = OpenAI(api_key=OPENAI_API_KEY, model="gemini-2.5-flash")
             answer = llm.complete(prompt).text
             from_kb = True
         else:

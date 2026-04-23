@@ -1,7 +1,7 @@
 import os
 import logging
 import streamlit as st
-from raglite import RAGLiteConfig, insert_document, hybrid_search, retrieve_chunks, rerank_chunks, rag
+from raglite import RAGLiteConfig, insert_documents, hybrid_search, retrieve_chunks, rerank_chunks, rag
 from rerankers import Reranker
 from typing import List, Dict, Any
 from pathlib import Path
@@ -64,7 +64,7 @@ def process_document(file_path: str) -> bool:
     try:
         if not st.session_state.get('my_config'):
             raise ValueError("Configuration not initialized")
-        insert_document(Path(file_path), config=st.session_state.my_config)
+        insert_documents(Path(file_path), config=st.session_state.my_config)
         return True
     except Exception as e:
         logger.error(f"Error processing document: {str(e)}")

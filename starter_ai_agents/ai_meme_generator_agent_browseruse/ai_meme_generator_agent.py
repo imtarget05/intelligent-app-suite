@@ -22,7 +22,7 @@ async def generate_meme(query: str, model_choice: str, api_key: str) -> None:
         )
     else:  # OpenAI
         llm = ChatOpenAI(
-            model="gpt-4o",
+            model="gemini-2.5-flash",
             api_key=api_key,
             temperature=0.0
         )

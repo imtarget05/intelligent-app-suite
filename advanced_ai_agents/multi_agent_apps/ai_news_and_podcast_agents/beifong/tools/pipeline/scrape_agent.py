@@ -101,7 +101,7 @@ def verify_content_with_agent(query, search_results, use_agent=True):
         try:
             session_id = str(uuid.uuid4())
             scrape_agent = Agent(
-                model=OpenAIChat(id="gpt-4o-mini"),
+                model=OpenAIChat(id="gemini-2.5-flash"),
                 instructions=SCRAPE_AGENT_INSTRUCTIONS,
                 description=SCRAPE_AGENT_DESCRIPTION,
                 use_json_mode=True,

@@ -112,7 +112,7 @@ def podcast_script_agent_run(
         return "No confirmed sources found to generate podcast script."
 
     podcast_script_agent = Agent(
-        model=OpenAIChat(id="gpt-4o-mini"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         instructions=PODCAST_AGENT_INSTRUCTIONS,
         description=PODCAST_AGENT_DESCRIPTION,
         use_json_mode=True,

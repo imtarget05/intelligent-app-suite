@@ -3,7 +3,7 @@ from typing import List, Dict, Any
 from openai import OpenAI
 from utils.load_api_keys import load_api_key
 
-TRANSLATION_MODEL = "gpt-4o"
+TRANSLATION_MODEL = "gemini-2.5-flash"
 LANG_CODE_TO_NAME = {
     "en": "English",
     "h": "Hindi",

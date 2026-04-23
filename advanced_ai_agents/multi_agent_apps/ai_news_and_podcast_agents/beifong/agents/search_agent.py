@@ -78,7 +78,7 @@ def search_agent_run(agent: Agent, query: str) -> str:
     session = SessionService.get_session(session_id)
     current_state = session["state"]
     search_agent = Agent(
-        model=OpenAIChat(id="gpt-4o-mini"),
+        model=OpenAIChat(id="gemini-2.5-flash"),
         instructions=SEARCH_AGENT_INSTRUCTIONS,
         description=SEARCH_AGENT_DESCRIPTION,
         use_json_mode=True,
