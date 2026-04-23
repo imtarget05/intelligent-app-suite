@@ -10,7 +10,6 @@ from typing import Annotated, Literal, Sequence
 from typing_extensions import TypedDict
 from functools import partial
 
-from langchain import hub
 from langchain_core.messages import BaseMessage, HumanMessage
 from langgraph.graph.message import add_messages
 from langchain_core.output_parsers import StrOutputParser
@@ -221,7 +220,12 @@ def generate(state):
     docs = last_message.content
 
     # Initialize a Chat Prompt Template
-    prompt_template = hub.pull("rlm/rag-prompt")
+    prompt_template = PromptTemplate.from_template(
+        "You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.\n"
+        "Question: {question}\n"
+        "Context: {context}\n"
+        "Answer:"
+    )
 
     # Initialize a Generator (i.e. Chat Model)
     chat_model = ChatGoogleGenerativeAI(api_key=st.session_state.gemini_api_key, model="gemini-2.0-flash", temperature=0, streaming=True)

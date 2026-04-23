@@ -1,4 +1,3 @@
-from langchain import hub
 from langchain.output_parsers import PydanticOutputParser
 from langchain_core.output_parsers import StrOutputParser
 from langchain.schema import Document
