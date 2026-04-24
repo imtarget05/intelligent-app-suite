@@ -53,11 +53,11 @@ AI Agents · Multi-agent Teams · MCP Agents · RAG · Voice Agents · Agent Ski
 <a href="https://www.theunwindai.com"><kbd> &nbsp; 📚 Step-by-Step Tutorials &nbsp; </kbd></a>
 </p>
 
-<p align="center">
-  <a href="QUICK_START.md"><kbd> &nbsp; ⚡ QUICK_START &nbsp; </kbd></a>
-  <a href="WORKFLOW.md"><kbd> &nbsp; 🧭 WORKFLOW &nbsp; </kbd></a>
-  <a href="CONTRIBUTING.md"><kbd> &nbsp; 🤝 CONTRIBUTING &nbsp; </kbd></a>
-  <a href="SECURITY.md"><kbd> &nbsp; 🛡️ SECURITY &nbsp; </kbd></a>
+<p>
+<a href="QUICK_START.md"><kbd> &nbsp; ⚡ QUICK_START &nbsp; </kbd></a>
+<a href="WORKFLOW.md"><kbd> &nbsp; 🧭 WORKFLOW &nbsp; </kbd></a>
+<a href="CONTRIBUTING.md"><kbd> &nbsp; 🤝 CONTRIBUTING &nbsp; </kbd></a>
+<a href="SECURITY.md"><kbd> &nbsp; 🛡️ SECURITY &nbsp; </kbd></a>
 </p>
 
 <a href="https://trendshift.io/repositories/9876" target="_blank">
@@ -94,6 +94,116 @@ pip install -r requirements.txt
 streamlit run travel_agent.py
 ```
 
+---
+
+## 📚 Documentation Tabs
+
+<details open>
+<summary><strong>Click to expand tabs</strong></summary>
+
+### Quick Start Guide
+📖 **Hướng dẫn nhanh RAG Tutorials** - Cách chạy 22 ứng dụng RAG
+
+**📦 Yêu cầu chung:**
+- Python 3.10+
+- Khuyến nghị sử dụng môi trường ảo (`venv` hoặc `conda`) cho từng ứng dụng để tránh xung đột thư viện.
+- Cài đặt Ollama (nếu dùng các app Local RAG): https://ollama.com
+
+**🛠️ Ví dụ nhanh - Chạy Agentic RAG Embedding Gemma:**
+```bash
+cd rag_tutorials/agentic_rag_embedding_gemma
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+**🚀 Triển khai nhanh:**
+
+1. **Streamlit Community Cloud (Miễn phí)**
+   - Đẩy mã lên GitHub
+   - Đăng nhập https://share.streamlit.io/
+   - Chọn repo, folder và file `.py` của app
+   - Cấu hình API keys trong Secrets
+
+2. **Docker**
+   ```dockerfile
+   FROM python:3.10-slim
+   WORKDIR /app
+   COPY requirements.txt .
+   RUN pip install --no-cache-dir -r requirements.txt
+   COPY . .
+   EXPOSE 8501
+   CMD ["streamlit", "run", "tên_file_app.py", "--server.address=0.0.0.0"]
+   ```
+
+[👉 Xem chi tiết tại QUICK_START.md](QUICK_START.md)
+
+---
+
+### Workflow & Architecture
+
+🏗️ **Hệ thống được nhóm thành 6 mô hình kiến trúc RAG cốt lõi:**
+
+#### 1️⃣ Local & Privacy-First RAG
+**Áp dụng cho:** Apps 1, 9, 13, 14, 15, 16
+- Hoàn toàn chạy offline, bảo mật 100% dữ liệu
+
+```
+Tài liệu → Local Embeddings → Local Vector DB → Retriever → Local LLM → Câu trả lời
+```
+
+**Setup:**
+```bash
+ollama pull llama3.2
+ollama pull embeddinggemma
+cd rag_tutorials/llama3.1_local_rag
+pip install -r requirements.txt
+streamlit run llama3.1_local_rag.py
+```
+
+---
+
+#### 2️⃣ Agentic RAG
+**Áp dụng cho:** Apps 2, 3, 4, 6, 10, 18
+- Agent tự suy luận, lập kế hoạch, sử dụng Web Search khi cần
+
+**Yêu cầu:** API Keys (OpenAI/Google/Tavily)
+
+---
+
+#### 3️⃣ Knowledge Graph RAG (GraphRAG)
+**Áp dụng cho:** App 12
+- Trích xuất Entities & Relationships để lưu vào Neo4j
+
+**Setup Docker:**
+```bash
+docker run -d --name neo4j -p 7474:7474 -p 7687:7687 -e NEO4J_AUTH=neo4j/password neo4j:latest
+```
+
+---
+
+#### 4️⃣ Corrective RAG (CRAG)
+**Áp dụng cho:** App 8
+- Tự đánh giá chất lượng, rewrite query nếu cần
+
+---
+
+#### 5️⃣ Database Routing RAG
+**Áp dụng cho:** App 20
+- Router tự động chọn DB đúng (HR, Finance, Tech Support)
+
+---
+
+#### 6️⃣ Vision RAG
+**Áp dụng cho:** App 22
+- Xử lý hình ảnh & biểu đồ trong PDF
+
+**Yêu cầu:** Cohere API + Google API Keys
+
+[👉 Xem chi tiết tại WORKFLOW.md](WORKFLOW.md)
+
+</details>
+
+---
 
 ## 🔥 Featured This Month
 
