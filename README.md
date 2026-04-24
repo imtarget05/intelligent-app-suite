@@ -53,11 +53,11 @@ AI Agents · Multi-agent Teams · MCP Agents · RAG · Voice Agents · Agent Ski
 <a href="https://www.theunwindai.com"><kbd> &nbsp; 📚 Step-by-Step Tutorials &nbsp; </kbd></a>
 </p>
 
-<p>
-<a href="QUICK_START.md"><kbd> &nbsp; ⚡ QUICK_START &nbsp; </kbd></a>
-<a href="WORKFLOW.md"><kbd> &nbsp; 🧭 WORKFLOW &nbsp; </kbd></a>
-<a href="CONTRIBUTING.md"><kbd> &nbsp; 🤝 CONTRIBUTING &nbsp; </kbd></a>
-<a href="SECURITY.md"><kbd> &nbsp; 🛡️ SECURITY &nbsp; </kbd></a>
+<p align="center">
+  <a href="QUICK_START.md"><kbd> &nbsp; ⚡ QUICK_START &nbsp; </kbd></a>
+  <a href="WORKFLOW.md"><kbd> &nbsp; 🧭 WORKFLOW &nbsp; </kbd></a>
+  <a href="CONTRIBUTING.md"><kbd> &nbsp; 🤝 CONTRIBUTING &nbsp; </kbd></a>
+  <a href="SECURITY.md"><kbd> &nbsp; 🛡️ SECURITY &nbsp; </kbd></a>
 </p>
 
 <a href="https://trendshift.io/repositories/9876" target="_blank">
